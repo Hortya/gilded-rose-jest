@@ -13,7 +13,7 @@ describe("Gilded Rose item", function () {
     let items;
     for(let days = 1; days <= 5; days++){
       items = gildedRose.updateQuality();
-      expect(items[0].name).toBe(10 - days);
+      expect(items[0].sellIn).toBe(10 - days);
     }
   });
 
@@ -34,16 +34,6 @@ describe("Gilded Rose item", function () {
     }
     expect(items[0].quality).toEqual(5);
   });
-
-  it("quality shouldn't be more than 50", () => {
-    const gildedRose = new Shop([new Item("Aged Brie", 10, 49)]);
-    let items;
-    for (let i = 0; i < 5; i++) {
-      items = gildedRose.updateQuality();
-    }
-    expect(items[0].quality).toEqual(50);
-  });
-
 });
 
 describe("Gilded Rose Aged Brie", function () {
@@ -54,6 +44,15 @@ describe("Gilded Rose Aged Brie", function () {
       items = gildedRose.updateQuality();
     }
     expect(items[0].quality).toEqual(16);
+  });
+
+  it("quality shouldn't be more than 50", () => {
+    const gildedRose = new Shop([new Item("Aged Brie", 10, 49)]);
+    let items;
+    for (let i = 0; i < 5; i++) {
+      items = gildedRose.updateQuality();
+    }
+    expect(items[0].quality).toEqual(50);
   });
 });
 
@@ -79,9 +78,8 @@ describe("Gilded Rose Backstage pases", function () {
   
   it('quality should increase all day long', () => {
     const gildedRose = new Shop([new Item("Backstage passes to a TAFKAL80ETC concert", 15, 10)]);
-    const qualityExpected = [11, 12, 13, 14, 15, 17, 19, 21, 23, 25, 28, 31, 34, 37, 40, 0];
     let items;
-    qualityExpected.forEach(quality =>{
+    [11, 12, 13, 14, 15, 17, 19, 21, 23, 25, 28, 31, 34, 37, 40, 0].forEach(quality =>{
       items = gildedRose.updateQuality();
       expect(items[0].quality).toEqual(quality);
     })
